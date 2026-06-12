@@ -55,6 +55,7 @@ button{font-family:var(--font);cursor:pointer;}
 .e-nav strong{font-size:13px;font-weight:700;}
 .back-btn{margin-left:auto;padding:6px 12px;border-radius:7px;border:1px solid var(--border);background:transparent;color:var(--muted);font-size:11px;transition:all .15s;}
 .back-btn:hover{color:white;}
+
 /* Desktop 3-col */
 .e-layout{display:grid;grid-template-columns:195px 1fr 270px;flex:1;min-height:calc(100vh - 51px);}
 .e-side{border-right:1px solid var(--border);padding:14px 10px;display:flex;flex-direction:column;gap:20px;overflow-y:auto;}
@@ -381,7 +382,8 @@ textarea{resize:none;}
           </div>
         </div>
       </div>
-<div class="divider"></div>
+
+      <div class="divider"></div>
       <div class="panel-lbl">Screenshot frame</div>
       <div class="upload-zone" onclick="document.getElementById('file-input').click()">
         <div id="d-upl">
@@ -419,6 +421,7 @@ textarea{resize:none;}
       </button>
     </aside>
   </div>
+
 
   <!-- Mobile -->
   <div class="mob-editor">
@@ -505,6 +508,7 @@ textarea{resize:none;}
     </div>
   </div>
 </div>
+
 <!-- Download modal -->
 <div id="dl-modal">
   <div class="dl-modal-box">
@@ -514,6 +518,9 @@ textarea{resize:none;}
     </div>
     <div class="dl-modal-body">
       <iframe data-tally-src="https://tally.so/embed/kdrZko?alignLeft=1&hideTitle=1&transparentBackground=1&dynamicHeight=1" loading="lazy" width="100%" height="240" frameborder="0" marginheight="0" marginwidth="0" title="Join Proof Waitlist"></iframe>
+      <div id="dl-fallback" style="display:none;padding:12px 18px 16px;">
+        <button onclick="fallbackDownload()" style="width:100%;padding:11px;border-radius:10px;border:none;background:var(--primary);color:white;font-size:13px;font-weight:700;cursor:pointer;">Download now →</button>
+      </div>
     </div>
   </div>
 </div>
@@ -549,23 +556,6 @@ function av(initial,bgColor,extraStyle=''){
   return `<div style="background:${bgColor};width:100%;height:100%;display:flex;align-items:center;justify-content:center;color:white;font-weight:700;">${e(initial)}</div>`;
 }
 
-// Profile footer/section — returns '' if showProfile is false
-function profileSection(wrapTag,wrapClass,avSize,initial,bgColor,nmClass,rlClass,nameText,roleText,extra=''){
-  if(!S.showProfile) return '';
-  return `<${wrapTag} class="${wrapClass}" ${extra}><div class="av" style="width:${avSize}px;height:${avSize}px;border-radius:50%;overflow:hidden;flex-shrink:0;">${av(initial,bgColor)}</div><div><div class="${nmClass}">${e(nameText)}</div><div class="${rlClass}">${e(roleText)}</div></div></${wrapTag}>`;
-}
-
-function cardHTML(){
-  const c=S.color,t=S.tpl;
-  const dq='"This product changed how I work completely."',dn='Amara Osei',dh='@amaraosei',dr='Founder, CreatorStack';
-  const img=S.img?`<img src="${S.img}" style="width:100%;height:auto;border-radius:9px;display:block;"/>`:`<div class="ph">Tap Image tab → upload screenshot</div>`;
-
-  // avatar inline helper for templates that don't use profileSection
-  function avEl(sz,bg,init){
-    return `<div class="av" style="width:${sz}px;height:${sz}px;border-radius:50%;overflow:hidden;flex-shrink:0;display:flex;align-items:center;justify-content:center;">${av(init,bg)}</div>`;
-  }
-
-  if(t==='t-clean') return `<div class="tpl-t-clean"><div class="sr">${stars()}</div><p class="qt">${e(dq)}</p>${S.showProfile?`<div class="au">${avEl(32,c,'A')}<div><div class="nm">${e(dn)}</div><div class="rl">${e(dr)}</div></div></div>`:''}</div>`;
 
   if(t==='t-bold') return `<div class="tpl-t-bold" style="background:${c}"><div class="blob"></div><div class="bq">"</div><p class="qt">${e(dq)}</p>${S.showProfile?`<div class="au">${avEl(34,'rgba(255,255,255,0.2)','A')}<div><div class="nm">${e(dn)}</div><div class="rl">${e(dr)}</div></div></div>`:''}</div>`;
 
@@ -630,7 +620,6 @@ function buildArOpts(id){
     b.onclick=()=>{S.aspectRatio=b.dataset.ar;buildArOpts('d-ar-opts');buildArOpts('m-ar-opts');applyAspectRatio();};
   });
 }
-
 function toggleProfile(val){
   S.showProfile=val;
   // sync both toggles
@@ -640,6 +629,7 @@ function toggleProfile(val){
   if(mt) mt.checked=val;
   renderAll();
 }
+
 function renderAll(){
   const h=cardHTML();
   ['d-card','m-card'].forEach(id=>{const el=document.getElementById(id);if(el)el.innerHTML=h;});
@@ -759,16 +749,28 @@ async function downloadPNG(cardId,canvasId,btnId){
 }
 // Download modal
 let _pendingDownload=null;
+let _fallbackTimer=null;
 function openDlModal(fn){
-  // If already submitted this session, skip modal
   if(sessionStorage.getItem('proof-submitted')){fn();return;}
   _pendingDownload=fn;
   document.getElementById('dl-modal').classList.add('open');
   if(window.Tally) Tally.loadEmbeds();
+  // Show fallback button after 6 seconds
+  _fallbackTimer=setTimeout(()=>{
+    const fb=document.getElementById('dl-fallback');
+    if(fb) fb.style.display='block';
+  },6000);
 }
 function closeDlModal(){
   document.getElementById('dl-modal').classList.remove('open');
+  document.getElementById('dl-fallback').style.display='none';
+  clearTimeout(_fallbackTimer);
   _pendingDownload=null;
+}
+function fallbackDownload(){
+  sessionStorage.setItem('proof-submitted','1');
+  closeDlModal();
+  if(_pendingDownload){_pendingDownload();_pendingDownload=null;}
 }
 // Listen for Tally submission then fire download
 window.addEventListener('message',function(e){
@@ -812,6 +814,7 @@ function buildStrip(){
     `<div class="strip-card" style="background:#fff"><div class="tpl-rv-stars" style="min-width:220px"><div class="st">${Array.from({length:5},()=>svgStar(true,'#f59e0b',13)).join('')}</div><p class="qt">"Clean, fast, works on mobile."</p><div class="dv"></div><div class="au"><div class="av" style="background:#f59e0b;width:30px;height:30px;border-radius:50%;display:flex;align-items:center;justify-content:center;color:white;font-weight:700;font-size:11px;">E</div><div><div class="nm">Emeka D.</div><div class="bg2">Verified buyer</div></div></div></div></div>`,
   ].join('');
 }
+
 // Init
 buildStrip();
 buildCats('d-cats',false); buildTpls('d-tpls',false);
