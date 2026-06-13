@@ -5,7 +5,6 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
 <title>Proof — Social Proof Stylist</title>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
-<script src="https://tally.so/widgets/embed.js"></script>
 <style>
 *{box-sizing:border-box;margin:0;padding:0;}
 :root{--bg:#09090f;--surface:#13131c;--border:rgba(255,255,255,0.08);--muted:rgba(255,255,255,0.4);--faint:rgba(255,255,255,0.05);--primary:#FF6F61;--font:'Inter',system-ui,sans-serif;}
@@ -110,16 +109,6 @@ textarea{resize:none;}
 .btn-cp{display:flex;align-items:center;justify-content:center;gap:6px;padding:9px;border-radius:10px;border:1px solid var(--border);background:var(--faint);color:rgba(255,255,255,.55);font-size:11px;font-weight:500;width:100%;transition:all .15s;}
 .btn-cp:hover{color:white;border-color:rgba(255,255,255,.18);}
 
-/* Download modal */
-#dl-modal{display:none;position:fixed;inset:0;background:rgba(0,0,0,.7);z-index:999;align-items:center;justify-content:center;padding:20px;}
-#dl-modal.open{display:flex;}
-.dl-modal-box{background:var(--surface);border:1px solid var(--border);border-radius:18px;width:100%;max-width:420px;overflow:hidden;}
-.dl-modal-head{display:flex;align-items:center;justify-content:space-between;padding:16px 18px;border-bottom:1px solid var(--border);}
-.dl-modal-head strong{font-size:14px;}
-.dl-modal-close{background:none;border:none;color:var(--muted);font-size:20px;line-height:1;padding:0 4px;}
-.dl-modal-close:hover{color:white;}
-.dl-modal-body{padding:0;}
-.dl-modal-body iframe{display:block;}
 
 /* Toggle switch */
 .tog-row{display:flex;align-items:center;justify-content:space-between;}
@@ -615,21 +604,6 @@ textarea{resize:none;}
   </div>
 </div>
 
-<!-- Download modal -->
-<div id="dl-modal">
-  <div class="dl-modal-box">
-    <div class="dl-modal-head">
-      <strong>Quick — then your download starts 👇</strong>
-      <button class="dl-modal-close" onclick="closeDlModal()">×</button>
-    </div>
-    <div class="dl-modal-body">
-      <iframe data-tally-src="https://tally.so/embed/kdrZko?alignLeft=1&hideTitle=1&transparentBackground=1&dynamicHeight=1" loading="lazy" width="100%" height="240" frameborder="0" marginheight="0" marginwidth="0" title="Join Proof Waitlist"></iframe>
-      <div id="dl-fallback" style="display:none;padding:12px 18px 16px;">
-        <button onclick="fallbackDownload()" style="width:100%;padding:11px;border-radius:10px;border:none;background:var(--primary);color:white;font-size:13px;font-weight:700;cursor:pointer;">Download now →</button>
-      </div>
-    </div>
-  </div>
-</div>
 
 <script>
 const S={
@@ -998,44 +972,9 @@ async function downloadPNG(cardId,canvasId,btnId){
   }catch(err){alert('Export failed: '+err.message);}
   btn.innerHTML=orig;
 }
-// Download modal
-let _pendingDownload=null;
-let _fallbackTimer=null;
-function openDlModal(fn){
-  if(sessionStorage.getItem('proof-submitted')){fn();return;}
-  _pendingDownload=fn;
-  document.getElementById('dl-modal').classList.add('open');
-  if(window.Tally) Tally.loadEmbeds();
-  // Show fallback button after 6 seconds
-  _fallbackTimer=setTimeout(()=>{
-    const fb=document.getElementById('dl-fallback');
-    if(fb) fb.style.display='block';
-  },6000);
-}
-function closeDlModal(){
-  document.getElementById('dl-modal').classList.remove('open');
-  document.getElementById('dl-fallback').style.display='none';
-  clearTimeout(_fallbackTimer);
-  _pendingDownload=null;
-}
-function fallbackDownload(){
-  sessionStorage.setItem('proof-submitted','1');
-  closeDlModal();
-  if(_pendingDownload){_pendingDownload();_pendingDownload=null;}
-}
-// Listen for Tally submission then fire download
-window.addEventListener('message',function(e){
-  if(e.data&&e.data.type==='tally-form-complete'){
-    sessionStorage.setItem('proof-submitted','1');
-    document.getElementById('dl-modal').classList.remove('open');
-    if(_pendingDownload){_pendingDownload();_pendingDownload=null;}
-  }
-});
-// Close modal on backdrop click
-document.getElementById('dl-modal').addEventListener('click',function(e){if(e.target===this)closeDlModal();});
 
-document.getElementById('d-dl').onclick=()=>openDlModal(()=>downloadPNG('d-card','d-canvas','d-dl'));
-document.getElementById('m-dl').onclick=()=>openDlModal(()=>downloadPNG('m-card','m-canvas','m-dl'));
+document.getElementById('d-dl').onclick=()=>downloadPNG('d-card','d-canvas','d-dl');
+document.getElementById('m-dl').onclick=()=>downloadPNG('m-card','m-canvas','m-dl');
 
 function copyHTML(cardId,btnId){
   const el=document.getElementById(cardId); if(!el) return;
