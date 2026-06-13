@@ -300,13 +300,11 @@ textarea{resize:none;}
 .size-row label{font-size:10px;color:var(--muted);}
 .size-row input[type=range]{width:100%;accent-color:var(--primary);height:3px;}
 
-/* Clamp quote/text so card doesn't expand with long content */
+/* Font shrinks for long text, card expands naturally */
 .tpl-t-clean .qt,.tpl-t-bold .qt,.tpl-t-card .qt,.tpl-rv-stars .qt,.tpl-rv-minimal .qt,
+.tpl-th-light .tx,.tpl-th-dark .tx,.tpl-tw-light .tx,.tpl-tw-dark .tx,
 .tpl-dm-bubble .bb p,.tpl-dm-clean .mg p{
-  display:-webkit-box;-webkit-line-clamp:5;-webkit-box-orient:vertical;overflow:hidden;
-}
-.tpl-th-light .tx,.tpl-th-dark .tx,.tpl-tw-light .tx,.tpl-tw-dark .tx{
-  display:-webkit-box;-webkit-line-clamp:4;-webkit-box-orient:vertical;overflow:hidden;min-height:2.4em;
+  font-size:clamp(10px,3vw,14px);
 }
 .tpl-th-light .row,.tpl-th-dark .row,.tpl-tw-light .row,.tpl-tw-dark .row{align-items:flex-start;}
 .tpl-th-light .av,.tpl-th-dark .av,.tpl-tw-light .av,.tpl-tw-dark .av{flex-shrink:0;}
