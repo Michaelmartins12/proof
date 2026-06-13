@@ -835,8 +835,8 @@ window.addEventListener('message',function(e){
 // Close modal on backdrop click
 document.getElementById('dl-modal').addEventListener('click',function(e){if(e.target===this)closeDlModal();});
 
-document.getElementById('d-dl').onclick=()=>openDlModal(()=>downloadPNG('d-card','d-canvas','d-dl'));
-document.getElementById('m-dl').onclick=()=>openDlModal(()=>downloadPNG('m-card','m-canvas','m-dl'));
+document.getElementById('d-dl').onclick=()=>downloadPNG('d-card','d-canvas','d-dl');
+document.getElementById('m-dl').onclick=()=>downloadPNG('m-card','m-canvas','m-dl');
 
 function copyHTML(cardId,btnId){
   const el=document.getElementById(cardId); if(!el) return;
