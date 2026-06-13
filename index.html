@@ -210,43 +210,101 @@ textarea{resize:none;}
 .tpl-t-card .rl{font-size:10px;color:#666;}
 .tpl-t-card .sr2{display:flex;gap:2px;margin-left:auto;}
 
-.tpl-th-light{background:#fff;border-radius:16px;padding:15px;border:1px solid #eee;font-family:Inter,system-ui,sans-serif;min-width:260px;}
-.tpl-th-light .row{display:flex;gap:9px;}
-.tpl-th-light .av{width:36px;height:36px;border-radius:50%;display:flex;align-items:center;justify-content:center;color:white;font-weight:700;font-size:13px;flex-shrink:0;overflow:hidden;}
-.tpl-th-light .hrow{display:flex;align-items:baseline;gap:5px;margin-bottom:3px;}
-.tpl-th-light .dn{font-size:13px;font-weight:700;color:#111;}
-.tpl-th-light .un{font-size:11px;color:#999;}
-.tpl-th-light .tx{font-size:13px;line-height:1.6;color:#111;}
-.tpl-th-light .rx{display:flex;gap:11px;margin-top:9px;font-size:11px;color:#bbb;align-items:center;}
-.tpl-th-light .pi{margin-left:auto;color:#111;}
+/* ── Threads Light (redesigned) ─────────────────────────────── */
+.tpl-th-light{
+  background:#ffffff;
+  border-radius:24px;
+  padding:28px;
+  border:1px solid rgba(0,0,0,0.07);
+  font-family:Inter,system-ui,sans-serif;
+  min-width:280px;
+  box-shadow:0 1px 3px rgba(0,0,0,0.05),0 8px 32px rgba(0,0,0,0.06);
+  display:flex;
+  flex-direction:column;
+  gap:0;
+}
+.tpl-th-light .th-header{display:flex;align-items:center;gap:12px;margin-bottom:16px;}
+.tpl-th-light .av{width:44px;height:44px;border-radius:50%;flex-shrink:0;overflow:hidden;display:flex;align-items:center;justify-content:center;}
+.tpl-th-light .th-meta{display:flex;flex-direction:column;gap:1px;}
+.tpl-th-light .dn{font-size:14px;font-weight:700;color:#0d0d0d;letter-spacing:-0.01em;}
+.tpl-th-light .un{font-size:12px;color:#999;font-weight:400;}
+.tpl-th-light .tx{font-size:18px;font-weight:600;line-height:1.5;color:#0d0d0d;letter-spacing:-0.02em;margin-bottom:20px;}
+.tpl-th-light .th-footer{display:flex;align-items:center;border-top:1px solid rgba(0,0,0,0.06);padding-top:16px;margin-top:4px;}
+.tpl-th-light .rx{display:flex;gap:16px;font-size:12px;color:#aaa;align-items:center;font-weight:500;}
+.tpl-th-light .rx-item{display:flex;align-items:center;gap:4px;}
+.tpl-th-light .pi{margin-left:auto;color:#0d0d0d;opacity:0.6;display:flex;align-items:center;}
 
-.tpl-th-dark{background:#101010;border-radius:16px;padding:15px;font-family:Inter,system-ui,sans-serif;min-width:260px;}
-.tpl-th-dark .row{display:flex;gap:9px;}
-.tpl-th-dark .av{width:36px;height:36px;border-radius:50%;display:flex;align-items:center;justify-content:center;color:white;font-weight:700;font-size:13px;flex-shrink:0;overflow:hidden;}
-.tpl-th-dark .hrow{display:flex;align-items:baseline;gap:5px;margin-bottom:3px;}
-.tpl-th-dark .dn{font-size:13px;font-weight:700;color:#fff;}
-.tpl-th-dark .un{font-size:11px;color:#555;}
-.tpl-th-dark .tx{font-size:13px;line-height:1.6;color:#e0e0e0;}
-.tpl-th-dark .rx{display:flex;gap:11px;margin-top:9px;font-size:11px;color:#555;align-items:center;}
-.tpl-th-dark .pi{margin-left:auto;color:#fff;}
+/* ── Threads Dark (redesigned) ──────────────────────────────── */
+.tpl-th-dark{
+  background:#101010;
+  border-radius:24px;
+  padding:28px;
+  font-family:Inter,system-ui,sans-serif;
+  min-width:280px;
+  box-shadow:0 0 0 1px rgba(255,255,255,0.07) inset;
+  display:flex;
+  flex-direction:column;
+  gap:0;
+}
+.tpl-th-dark .th-header{display:flex;align-items:center;gap:12px;margin-bottom:16px;}
+.tpl-th-dark .av{width:44px;height:44px;border-radius:50%;flex-shrink:0;overflow:hidden;display:flex;align-items:center;justify-content:center;}
+.tpl-th-dark .th-meta{display:flex;flex-direction:column;gap:1px;}
+.tpl-th-dark .dn{font-size:14px;font-weight:700;color:#f5f5f5;letter-spacing:-0.01em;}
+.tpl-th-dark .un{font-size:12px;color:#555;font-weight:400;}
+.tpl-th-dark .tx{font-size:18px;font-weight:600;line-height:1.5;color:#f0f0f0;letter-spacing:-0.02em;margin-bottom:20px;}
+.tpl-th-dark .th-footer{display:flex;align-items:center;border-top:1px solid rgba(255,255,255,0.07);padding-top:16px;margin-top:4px;}
+.tpl-th-dark .rx{display:flex;gap:16px;font-size:12px;color:#555;align-items:center;font-weight:500;}
+.tpl-th-dark .rx-item{display:flex;align-items:center;gap:4px;}
+.tpl-th-dark .pi{margin-left:auto;color:#fff;opacity:0.35;display:flex;align-items:center;}
 
-.tpl-tw-light{background:#fff;border-radius:16px;padding:15px;border:1px solid #eee;font-family:Inter,system-ui,sans-serif;min-width:260px;}
-.tpl-tw-light .row{display:flex;gap:9px;}
-.tpl-tw-light .av{width:36px;height:36px;border-radius:50%;display:flex;align-items:center;justify-content:center;color:white;font-weight:700;font-size:13px;flex-shrink:0;overflow:hidden;}
-.tpl-tw-light .top{display:flex;align-items:flex-start;justify-content:space-between;}
-.tpl-tw-light .dn{font-size:13px;font-weight:700;color:#0f1419;}
-.tpl-tw-light .un{font-size:11px;color:#536471;}
-.tpl-tw-light .tx{font-size:14px;line-height:1.6;color:#0f1419;margin-top:5px;}
-.tpl-tw-light .rx{display:flex;gap:11px;margin-top:9px;font-size:11px;color:#536471;}
+/* ── Twitter/X Light (redesigned) ──────────────────────────── */
+.tpl-tw-light{
+  background:#ffffff;
+  border-radius:24px;
+  padding:28px;
+  border:1px solid rgba(0,0,0,0.07);
+  font-family:Inter,system-ui,sans-serif;
+  min-width:280px;
+  box-shadow:0 1px 3px rgba(0,0,0,0.05),0 8px 32px rgba(0,0,0,0.06);
+  display:flex;
+  flex-direction:column;
+  gap:0;
+}
+.tpl-tw-light .tw-header{display:flex;align-items:flex-start;justify-content:space-between;margin-bottom:16px;}
+.tpl-tw-light .tw-author{display:flex;align-items:center;gap:12px;}
+.tpl-tw-light .av{width:44px;height:44px;border-radius:50%;flex-shrink:0;overflow:hidden;display:flex;align-items:center;justify-content:center;}
+.tpl-tw-light .tw-meta{display:flex;flex-direction:column;gap:1px;}
+.tpl-tw-light .dn{font-size:14px;font-weight:700;color:#0f1419;letter-spacing:-0.01em;}
+.tpl-tw-light .un{font-size:12px;color:#536471;font-weight:400;}
+.tpl-tw-light .tw-icon{display:flex;align-items:center;color:#0f1419;opacity:0.35;flex-shrink:0;}
+.tpl-tw-light .tx{font-size:18px;font-weight:600;line-height:1.5;color:#0f1419;letter-spacing:-0.02em;margin-bottom:20px;}
+.tpl-tw-light .tw-footer{display:flex;align-items:center;border-top:1px solid rgba(0,0,0,0.06);padding-top:16px;margin-top:4px;}
+.tpl-tw-light .rx{display:flex;gap:16px;font-size:12px;color:#536471;align-items:center;font-weight:500;}
+.tpl-tw-light .rx-item{display:flex;align-items:center;gap:4px;}
 
-.tpl-tw-dark{background:#15202b;border-radius:16px;padding:15px;font-family:Inter,system-ui,sans-serif;min-width:260px;}
-.tpl-tw-dark .row{display:flex;gap:9px;}
-.tpl-tw-dark .av{width:36px;height:36px;border-radius:50%;display:flex;align-items:center;justify-content:center;color:white;font-weight:700;font-size:13px;flex-shrink:0;overflow:hidden;}
-.tpl-tw-dark .top{display:flex;align-items:flex-start;justify-content:space-between;}
-.tpl-tw-dark .dn{font-size:13px;font-weight:700;color:#fff;}
-.tpl-tw-dark .un{font-size:11px;color:#8b98a5;}
-.tpl-tw-dark .tx{font-size:14px;line-height:1.6;color:#e7e9ea;margin-top:5px;}
-.tpl-tw-dark .rx{display:flex;gap:11px;margin-top:9px;font-size:11px;color:#8b98a5;}
+/* ── Twitter/X Dark (redesigned) ───────────────────────────── */
+.tpl-tw-dark{
+  background:#000000;
+  border-radius:24px;
+  padding:28px;
+  font-family:Inter,system-ui,sans-serif;
+  min-width:280px;
+  box-shadow:0 0 0 1px rgba(255,255,255,0.1) inset;
+  display:flex;
+  flex-direction:column;
+  gap:0;
+}
+.tpl-tw-dark .tw-header{display:flex;align-items:flex-start;justify-content:space-between;margin-bottom:16px;}
+.tpl-tw-dark .tw-author{display:flex;align-items:center;gap:12px;}
+.tpl-tw-dark .av{width:44px;height:44px;border-radius:50%;flex-shrink:0;overflow:hidden;display:flex;align-items:center;justify-content:center;}
+.tpl-tw-dark .tw-meta{display:flex;flex-direction:column;gap:1px;}
+.tpl-tw-dark .dn{font-size:14px;font-weight:700;color:#e7e9ea;letter-spacing:-0.01em;}
+.tpl-tw-dark .un{font-size:12px;color:#555;font-weight:400;}
+.tpl-tw-dark .tw-icon{display:flex;align-items:center;color:#fff;opacity:0.3;flex-shrink:0;}
+.tpl-tw-dark .tx{font-size:18px;font-weight:600;line-height:1.5;color:#e7e9ea;letter-spacing:-0.02em;margin-bottom:20px;}
+.tpl-tw-dark .tw-footer{display:flex;align-items:center;border-top:1px solid rgba(255,255,255,0.08);padding-top:16px;margin-top:4px;}
+.tpl-tw-dark .rx{display:flex;gap:16px;font-size:12px;color:#555;align-items:center;font-weight:500;}
+.tpl-tw-dark .rx-item{display:flex;align-items:center;gap:4px;}
 
 .tpl-dm-bubble{background:#f2f2f7;border-radius:16px;padding:15px;font-family:Inter,system-ui,sans-serif;min-width:260px;}
 .tpl-dm-bubble .ts{font-size:10px;color:#aaa;text-align:center;margin-bottom:10px;}
@@ -302,12 +360,13 @@ textarea{resize:none;}
 
 /* Font shrinks for long text, card expands naturally */
 .tpl-t-clean .qt,.tpl-t-bold .qt,.tpl-t-card .qt,.tpl-rv-stars .qt,.tpl-rv-minimal .qt,
-.tpl-th-light .tx,.tpl-th-dark .tx,.tpl-tw-light .tx,.tpl-tw-dark .tx,
 .tpl-dm-bubble .bb p,.tpl-dm-clean .mg p{
   font-size:clamp(10px,3vw,14px);
 }
-.tpl-th-light .row,.tpl-th-dark .row,.tpl-tw-light .row,.tpl-tw-dark .row{align-items:flex-start;}
-.tpl-th-light .av,.tpl-th-dark .av,.tpl-tw-light .av,.tpl-tw-dark .av{flex-shrink:0;}
+/* Social card quote — scales between 15–18px */
+.tpl-th-light .tx,.tpl-th-dark .tx,.tpl-tw-light .tx,.tpl-tw-dark .tx{
+  font-size:clamp(15px,4vw,18px);
+}
 
 /* Avatar image inside circle */
 .av-img{width:100%;height:100%;object-fit:cover;display:block;}
@@ -579,7 +638,7 @@ const S={
 };
 const CATS=[{id:'testimonial',e:'💬',l:'Testimonial'},{id:'threads',e:'🧵',l:'Threads'},{id:'twitter',e:'𝕏',l:'Twitter'},{id:'dm',e:'📩',l:'DM'},{id:'review',e:'⭐',l:'Review'},{id:'screenshot',e:'🖼️',l:'Screenshot'}];
 const TPLS={testimonial:[{id:'t-clean',n:'Clean'},{id:'t-bold',n:'Bold'},{id:'t-card',n:'Card'}],threads:[{id:'th-light',n:'Light'},{id:'th-dark',n:'Dark'}],twitter:[{id:'tw-light',n:'Light'},{id:'tw-dark',n:'Dark'}],dm:[{id:'dm-bubble',n:'Bubble'},{id:'dm-clean',n:'Clean'}],review:[{id:'rv-stars',n:'Stars'},{id:'rv-minimal',n:'Minimal'}],screenshot:[{id:'sc-frame',n:'Frame'}]};
-const TPL_BG={'t-clean':'#fff','t-bold':null,'t-card':'#0f0f13','th-light':'#fff','th-dark':'#101010','tw-light':'#fff','tw-dark':'#15202b','dm-bubble':'#f2f2f7','dm-clean':'#fff','rv-stars':'#fff','rv-minimal':'#fff','sc-frame':'#fff'};
+const TPL_BG={'t-clean':'#fff','t-bold':null,'t-card':'#0f0f13','th-light':'#fff','th-dark':'#101010','tw-light':'#fff','tw-dark':'#000000','dm-bubble':'#f2f2f7','dm-clean':'#fff','rv-stars':'#fff','rv-minimal':'#fff','sc-frame':'#fff'};
 const SWS=['#FF6F61','#6C63FF','#22c55e','#f59e0b','#3b82f6','#ec4899','#14b8a6','#f97316','#8b5cf6','#0f0f0f','#ffffff','#e11d48','#0ea5e9','#10b981','#a855f7','#84cc16'];
 const BG_MODES=[{id:'none',l:'None'},{id:'color',l:'Color'},{id:'gradient',l:'Gradient'}];
 const TH=`<svg width="13" height="13" viewBox="0 0 192 192" fill="currentColor"><path d="M141.537 88.988a66.667 66.667 0 0 0-2.518-1.143c-1.482-27.307-16.403-42.94-41.457-43.1h-.34c-14.986 0-27.449 6.396-35.12 18.036l13.779 9.452c5.73-8.695 14.724-10.548 21.348-10.548h.229c8.249.053 14.474 2.452 18.503 7.129 2.932 3.405 4.893 8.111 5.864 14.05-7.314-1.243-15.224-1.626-23.68-1.141-23.82 1.371-39.134 15.264-38.105 34.568.522 9.792 5.4 18.216 13.735 23.719 7.047 4.652 16.124 6.927 25.557 6.412 12.458-.683 22.231-5.436 29.049-14.127 5.178-6.6 8.453-15.153 9.899-25.93 5.937 3.583 10.337 8.298 12.767 13.966 4.132 9.635 4.373 25.468-8.546 38.376-11.319 11.308-24.925 16.185-45.488 16.335-22.809-.169-40.06-7.484-51.275-21.742C35.236 139.966 29.808 120.682 29.605 96c.203-24.682 5.63-43.966 16.133-57.317C56.954 24.425 74.204 17.11 97.013 16.94c22.975.17 40.526 7.52 52.171 21.847 5.71 7.026 10.015 15.86 12.853 26.162l16.147-4.308c-3.44-12.68-8.853-23.606-16.219-32.668C147.036 9.607 125.202.195 97.07 0h-.113C68.882.195 47.292 9.643 33.36 28.108 20.95 44.606 14.353 67.608 14.1 95.979v.042c.253 28.37 6.85 51.373 19.26 67.87 13.931 18.465 35.522 27.913 64.554 28.108h.113c25.94-.173 44.246-6.972 59.282-21.997 19.768-19.754 19.135-44.64 12.627-59.884-4.648-10.841-13.562-19.564-28.4-24.13zM96.33 135.952c-10.44.586-21.265-4.098-21.821-14.135-.427-8.01 5.702-16.952 24.167-18.024 2.117-.122 4.197-.179 6.244-.179 6.146 0 11.895.6 17.106 1.749-1.95 24.376-15.204 29.934-25.696 30.589z"/></svg>`;
@@ -638,13 +697,19 @@ function cardHTML(){
 
   if(t==='t-card') return `<div class="tpl-t-card"><div class="glow" style="background:radial-gradient(ellipse at top left,${c}22,transparent 60%)"></div><div class="oq" style="color:${c}">"</div><p class="qt">${e(dq)}</p><div class="hr"></div>${S.showProfile?`<div class="au">${avEl(30,c,'A')}<div><div class="nm">${e(dn)}</div><div class="rl">${e(dr)}</div></div><div class="sr2">${stars()}</div></div>`:''}</div>`;
 
-  if(t==='th-light') return `<div class="tpl-th-light"><div class="row">${avEl(36,c,(dn[0]||'A'),false)}<div style="flex:1;min-width:0">${S.showProfile?`<div class="hrow"><span class="dn">${e(dn)}</span><span class="un">${e(dh)}</span></div>`:''}<p class="tx">${e('Just tried this — it does exactly what it says.')}</p><div class="rx"><span>❤️ 142</span><span>💬 38</span><span class="pi">${TH}</span></div></div>`;
+  // Shared avatar builder for social cards (always shows initial if no photo uploaded)
+  function socAvEl(sz,bg,init){
+    const inner=S.avatarImg?`<img class="av-img" src="${S.avatarImg}"/>`:`<div style="background:${bg};width:100%;height:100%;display:flex;align-items:center;justify-content:center;color:white;font-weight:700;font-size:${Math.round(sz*0.38)}px;">${(init||'A').toUpperCase()}</div>`;
+    return `<div class="av" style="width:${sz}px;height:${sz}px;border-radius:50%;overflow:hidden;flex-shrink:0;flex-grow:0;">${inner}</div>`;
+  }
 
-  if(t==='th-dark') return `<div class="tpl-th-dark"><div class="row">${avEl(36,c,(dn[0]||'A'),false)}<div style="flex:1;min-width:0">${S.showProfile?`<div class="hrow"><span class="dn">${e(dn)}</span><span class="un">${e(dh)}</span></div>`:''}<p class="tx">${e('Just tried this — it does exactly what it says.')}</p><div class="rx"><span>❤️ 142</span><span>💬 38</span><span class="pi">${TH}</span></div></div>`;
+  if(t==='th-light') return `<div class="tpl-th-light">${S.showProfile?`<div class="th-header">${socAvEl(44,c,dn[0])}<div class="th-meta"><div class="dn">${e(dn)}</div><div class="un">${e(dh)}</div></div></div>`:''}<p class="tx">${e('"This product changed how I work completely."')}</p><div class="th-footer"><div class="rx"><span class="rx-item">❤️ <span>${e('142')}</span></span><span class="rx-item">💬 <span>${e('38')}</span></span></div><span class="pi">${TH}</span></div></div>`;
 
-  if(t==='tw-light') return `<div class="tpl-tw-light"><div class="row">${avEl(36,c,(dn[0]||'A'),false)}<div style="flex:1;min-width:0"><div class="top">${S.showProfile?`<div><div class="dn">${e(dn)}</div><div class="un">${e(dh)}</div></div>`:''}<span style="margin-left:auto">${TW}</span></div><p class="tx">${e('Just tried this — game changer for my workflow.')}</p><div class="rx"><span>💬 38</span><span>🔁 61</span><span>❤️ 142</span></div></div>`;
+  if(t==='th-dark') return `<div class="tpl-th-dark">${S.showProfile?`<div class="th-header">${socAvEl(44,c,dn[0])}<div class="th-meta"><div class="dn">${e(dn)}</div><div class="un">${e(dh)}</div></div></div>`:''}<p class="tx">${e('"This product changed how I work completely."')}</p><div class="th-footer"><div class="rx"><span class="rx-item">❤️ <span>${e('142')}</span></span><span class="rx-item">💬 <span>${e('38')}</span></span></div><span class="pi">${TH}</span></div></div>`;
 
-  if(t==='tw-dark') return `<div class="tpl-tw-dark"><div class="row">${avEl(36,c,(dn[0]||'A'),false)}<div style="flex:1;min-width:0"><div class="top">${S.showProfile?`<div><div class="dn">${e(dn)}</div><div class="un">${e(dh)}</div></div>`:''}<span style="margin-left:auto;color:#1d9bf0">${TW}</span></div><p class="tx">${e('Just tried this — game changer for my workflow.')}</p><div class="rx"><span>💬 38</span><span>🔁 61</span><span>❤️ 142</span></div></div>`;
+  if(t==='tw-light') return `<div class="tpl-tw-light"><div class="tw-header"><div class="tw-author">${socAvEl(44,c,dn[0])}${S.showProfile?`<div class="tw-meta"><div class="dn">${e(dn)}</div><div class="un">${e(dh)}</div></div>`:''}</div><span class="tw-icon">${TW}</span></div><p class="tx">${e('"This product changed how I work completely."')}</p><div class="tw-footer"><div class="rx"><span class="rx-item">💬 <span>${e('38')}</span></span><span class="rx-item">🔁 <span>${e('61')}</span></span><span class="rx-item">❤️ <span>${e('142')}</span></span></div></div></div>`;
+
+  if(t==='tw-dark') return `<div class="tpl-tw-dark"><div class="tw-header"><div class="tw-author">${socAvEl(44,c,dn[0])}${S.showProfile?`<div class="tw-meta"><div class="dn">${e(dn)}</div><div class="un">${e(dh)}</div></div>`:''}</div><span class="tw-icon">${TW}</span></div><p class="tx">${e('"This product changed how I work completely."')}</p><div class="tw-footer"><div class="rx"><span class="rx-item">💬 <span>${e('38')}</span></span><span class="rx-item">🔁 <span>${e('61')}</span></span><span class="rx-item">❤️ <span>${e('142')}</span></span></div></div></div>`;
 
   if(t==='dm-bubble') return `<div class="tpl-dm-bubble"><div class="ts">Today 2:41 PM</div><div class="br"><div class="bb" style="background:${c}"><p>${e('This saved me hours every week!')}</p></div></div>${S.showProfile?`<div class="snd"><div class="sav" style="width:20px;height:20px;border-radius:50%;overflow:hidden;flex-shrink:0;">${av('A','#bbb')}</div><div class="snm">${e(dn)} · ${e(dh)}</div></div>`:''}</div>`;
 
