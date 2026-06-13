@@ -300,6 +300,13 @@ textarea{resize:none;}
 .size-row label{font-size:10px;color:var(--muted);}
 .size-row input[type=range]{width:100%;accent-color:var(--primary);height:3px;}
 
+/* Clamp quote/text so card doesn't expand with long content */
+.tpl-t-clean .qt,.tpl-t-bold .qt,.tpl-t-card .qt,.tpl-rv-stars .qt,.tpl-rv-minimal .qt,
+.tpl-th-light .tx,.tpl-th-dark .tx,.tpl-tw-light .tx,.tpl-tw-dark .tx,
+.tpl-dm-bubble .bb p,.tpl-dm-clean .mg p{
+  display:-webkit-box;-webkit-line-clamp:5;-webkit-box-orient:vertical;overflow:hidden;
+}
+
 /* Avatar image inside circle */
 .av-img{width:100%;height:100%;object-fit:cover;border-radius:50%;display:block;}
 </style>
