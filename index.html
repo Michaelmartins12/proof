@@ -118,7 +118,7 @@ textarea{resize:none;}
 .dl-modal-head strong{font-size:14px;}
 .dl-modal-close{background:none;border:none;color:var(--muted);font-size:20px;line-height:1;padding:0 4px;}
 .dl-modal-close:hover{color:white;}
-.dl-modal-body{padding:0;background:white;border-radius:0 0 18px 18px;}
+.dl-modal-body{padding:0;}
 .dl-modal-body iframe{display:block;}
 
 /* Toggle switch */
@@ -294,6 +294,12 @@ textarea{resize:none;}
 .tpl-sc-frame .nm{font-size:11px;font-weight:600;color:#111;}
 .tpl-sc-frame .rl{font-size:10px;color:#999;}
 
+
+/* Card size slider */
+.size-row{display:flex;flex-direction:column;gap:5px;margin-top:6px;}
+.size-row label{font-size:10px;color:var(--muted);}
+.size-row input[type=range]{width:100%;accent-color:var(--primary);height:3px;}
+
 /* Avatar image inside circle */
 .av-img{width:100%;height:100%;object-fit:cover;border-radius:50%;display:block;}
 </style>
@@ -395,12 +401,13 @@ textarea{resize:none;}
 
       <div class="divider"></div>
       <div class="panel-lbl">Screenshot frame</div>
-      <div class="upload-zone" onclick="document.getElementById('file-input').click()">
+      <div class="upload-zone" id="d-upl-zone" onclick="document.getElementById('file-input').click()">
         <div id="d-upl">
           <svg width="22" height="22" viewBox="0 0 24 24" fill="rgba(255,255,255,0.2)"><path d="M19 7v3h-2V7h-3V5h3V2h2v3h3v2h-3zm-3 4V8h-3V5H5c-1.1 0-2 .9-2 2v12c0 1.1.9 2 2 2h14c1.1 0 2-.9 2-2v-8h-5zM5 19l3-4 2 3 3-4 4 5H5z"/></svg>
           <p>Upload screenshot<br/><span style="font-size:10px;opacity:.5">Framed inside the card</span></p>
         </div>
       </div>
+      <button id="d-rm-img" onclick="removeImg()" style="display:none;width:100%;margin-top:5px;padding:6px;border-radius:7px;border:1px solid rgba(255,80,80,.3);background:rgba(255,80,80,.08);color:rgba(255,120,120,.9);font-size:11px;cursor:pointer;">✕ Remove image</button>
       <input type="file" id="file-input" accept="image/*"/>
       <input type="file" id="avatar-input" accept="image/*"/>
 
@@ -463,6 +470,16 @@ textarea{resize:none;}
               <input type="color" id="m-bg-col" value="#1a1a2e"/>
               <input type="text" id="m-bg-hex" value="#1a1a2e" maxlength="7"/>
             </div>
+            <div id="m-bg-col2-row" style="display:none;margin-top:5px;">
+              <div class="m-color-row">
+                <input type="color" id="m-bg-col2" value="#6C63FF"/>
+                <input type="text" id="m-bg-hex2" value="#6C63FF" maxlength="7" placeholder="Gradient end"/>
+              </div>
+            </div>
+            <div class="size-row" id="m-size-row" style="display:none">
+              <label>Card size: <span id="m-size-val">100</span>%</label>
+              <input type="range" id="m-size-sl" min="60" max="140" value="100"/>
+            </div>
           </div>
           <div style="margin-top:8px;">
             <div style="font-size:10px;color:var(--muted);margin-bottom:5px;">Aspect ratio</div>
@@ -476,12 +493,13 @@ textarea{resize:none;}
         </div>
       </div>
       <div class="m-tool-panel" id="panel-image">
-        <div class="upload-zone" onclick="document.getElementById('file-input').click()" style="padding:12px;">
+        <div class="upload-zone" id="m-upl-zone" onclick="document.getElementById('file-input').click()" style="padding:12px;">
           <div id="m-upl">
             <svg width="20" height="20" viewBox="0 0 24 24" fill="rgba(255,255,255,0.2)"><path d="M19 7v3h-2V7h-3V5h3V2h2v3h3v2h-3zm-3 4V8h-3V5H5c-1.1 0-2 .9-2 2v12c0 1.1.9 2 2 2h14c1.1 0 2-.9 2-2v-8h-5zM5 19l3-4 2 3 3-4 4 5H5z"/></svg>
             <p>Upload screenshot → framed in card</p>
           </div>
         </div>
+        <button id="m-rm-img" onclick="removeImg()" style="display:none;width:100%;margin-top:5px;padding:7px;border-radius:7px;border:1px solid rgba(255,80,80,.3);background:rgba(255,80,80,.08);color:rgba(255,120,120,.9);font-size:11px;cursor:pointer;">✕ Remove image</button>
       </div>
       <div class="m-tool-panel" id="panel-profile">
         <div style="display:flex;flex-direction:column;gap:9px;">
@@ -542,16 +560,17 @@ textarea{resize:none;}
 const S={
   cat:'testimonial',tpl:'t-clean',
   color:localStorage.getItem('proof-color')||'#FF6F61',
-  bgMode:'none',bgColor:'#1a1a2e',
+  bgMode:'none',bgColor:'#1a1a2e',bgColor2:'#6C63FF',
   expMode:'with',img:null,
   avatarImg:null,showProfile:true,
   aspectRatio:'free',
-  starCount:5
+  starCount:5,
+  cardScale:100
 };
 const CATS=[{id:'testimonial',e:'💬',l:'Testimonial'},{id:'threads',e:'🧵',l:'Threads'},{id:'twitter',e:'𝕏',l:'Twitter'},{id:'dm',e:'📩',l:'DM'},{id:'review',e:'⭐',l:'Review'},{id:'screenshot',e:'🖼️',l:'Screenshot'}];
 const TPLS={testimonial:[{id:'t-clean',n:'Clean'},{id:'t-bold',n:'Bold'},{id:'t-card',n:'Card'}],threads:[{id:'th-light',n:'Light'},{id:'th-dark',n:'Dark'}],twitter:[{id:'tw-light',n:'Light'},{id:'tw-dark',n:'Dark'}],dm:[{id:'dm-bubble',n:'Bubble'},{id:'dm-clean',n:'Clean'}],review:[{id:'rv-stars',n:'Stars'},{id:'rv-minimal',n:'Minimal'}],screenshot:[{id:'sc-frame',n:'Frame'}]};
 const TPL_BG={'t-clean':'#fff','t-bold':null,'t-card':'#0f0f13','th-light':'#fff','th-dark':'#101010','tw-light':'#fff','tw-dark':'#15202b','dm-bubble':'#f2f2f7','dm-clean':'#fff','rv-stars':'#fff','rv-minimal':'#fff','sc-frame':'#fff'};
-const SWS=['#FF6F61','#6C63FF','#22c55e','#f59e0b','#3b82f6','#ec4899','#14b8a6','#f97316','#8b5cf6','#0f0f0f','#ffffff'];
+const SWS=['#FF6F61','#6C63FF','#22c55e','#f59e0b','#3b82f6','#ec4899','#14b8a6','#f97316','#8b5cf6','#0f0f0f','#ffffff','#e11d48','#0ea5e9','#10b981','#a855f7','#84cc16'];
 const BG_MODES=[{id:'none',l:'None'},{id:'color',l:'Color'},{id:'gradient',l:'Gradient'}];
 const TH=`<svg width="13" height="13" viewBox="0 0 192 192" fill="currentColor"><path d="M141.537 88.988a66.667 66.667 0 0 0-2.518-1.143c-1.482-27.307-16.403-42.94-41.457-43.1h-.34c-14.986 0-27.449 6.396-35.12 18.036l13.779 9.452c5.73-8.695 14.724-10.548 21.348-10.548h.229c8.249.053 14.474 2.452 18.503 7.129 2.932 3.405 4.893 8.111 5.864 14.05-7.314-1.243-15.224-1.626-23.68-1.141-23.82 1.371-39.134 15.264-38.105 34.568.522 9.792 5.4 18.216 13.735 23.719 7.047 4.652 16.124 6.927 25.557 6.412 12.458-.683 22.231-5.436 29.049-14.127 5.178-6.6 8.453-15.153 9.899-25.93 5.937 3.583 10.337 8.298 12.767 13.966 4.132 9.635 4.373 25.468-8.546 38.376-11.319 11.308-24.925 16.185-45.488 16.335-22.809-.169-40.06-7.484-51.275-21.742C35.236 139.966 29.808 120.682 29.605 96c.203-24.682 5.63-43.966 16.133-57.317C56.954 24.425 74.204 17.11 97.013 16.94c22.975.17 40.526 7.52 52.171 21.847 5.71 7.026 10.015 15.86 12.853 26.162l16.147-4.308c-3.44-12.68-8.853-23.606-16.219-32.668C147.036 9.607 125.202.195 97.07 0h-.113C68.882.195 47.292 9.643 33.36 28.108 20.95 44.606 14.353 67.608 14.1 95.979v.042c.253 28.37 6.85 51.373 19.26 67.87 13.931 18.465 35.522 27.913 64.554 28.108h.113c25.94-.173 44.246-6.972 59.282-21.997 19.768-19.754 19.135-44.64 12.627-59.884-4.648-10.841-13.562-19.564-28.4-24.13zM96.33 135.952c-10.44.586-21.265-4.098-21.821-14.135-.427-8.01 5.702-16.952 24.167-18.024 2.117-.122 4.197-.179 6.244-.179 6.146 0 11.895.6 17.106 1.749-1.95 24.376-15.204 29.934-25.696 30.589z"/></svg>`;
 const TW=`<svg width="13" height="13" viewBox="0 0 24 24" fill="currentColor"><path d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-4.714-6.231-5.401 6.231H2.744l7.737-8.835L1.254 2.25H8.08l4.253 5.622zm-1.161 17.52h1.833L7.084 4.126H5.117z"/></svg>`;
@@ -560,6 +579,19 @@ function lum(hex){const r=parseInt(hex.slice(1,3),16)/255,g=parseInt(hex.slice(3
 function safeText(bg){return lum(bg||'#fff')>0.35?'#111':'#fff';}
 function svgStar(f,c,sz=12){return `<svg width="${sz}" height="${sz}" viewBox="0 0 24 24" fill="${f?c:'none'}" stroke="${c}" stroke-width="1.5"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/></svg>`;}
 function stars(n,sz=12){n=n??S.starCount;return Array.from({length:5},(_,i)=>svgStar(i<n,S.color,sz)).join('');}
+
+// Collect current editable text from a card element before re-render
+function collectEdits(cardEl){
+  const spans=cardEl?cardEl.querySelectorAll('[contenteditable]'):[];
+  return Array.from(spans).map(s=>s.innerText);
+}
+// Restore editable text into new card after render
+function restoreEdits(cardEl,texts){
+  if(!texts||!texts.length) return;
+  const spans=cardEl.querySelectorAll('[contenteditable]');
+  spans.forEach((s,i)=>{if(texts[i]!==undefined) s.innerText=texts[i];});
+}
+
 function e(t){return `<span contenteditable="true" spellcheck="false">${t}</span>`;}
 
 // Avatar HTML: photo if uploaded, else initial letter
@@ -602,7 +634,7 @@ function cardHTML(){
 
   if(t==='dm-bubble') return `<div class="tpl-dm-bubble"><div class="ts">Today 2:41 PM</div><div class="br"><div class="bb" style="background:${c}"><p>${e('This saved me hours every week!')}</p></div></div>${S.showProfile?`<div class="snd"><div class="sav" style="width:20px;height:20px;border-radius:50%;overflow:hidden;flex-shrink:0;">${av('A','#bbb')}</div><div class="snm">${e(dn)} · ${e(dh)}</div></div>`:''}</div>`;
 
-  if(t==='dm-clean') return `<div class="tpl-dm-clean">${S.showProfile?`<div class="hd">${avEl(28,c,'A')}<div><div class="dn">${e(dn)}</div><div class="un">${e(dh)} · DM</div></div></div>`:''}<div class="mg"><p>${e('This saved me hours every week. Can\'t believe I did it manually before.')}</p></div></div>`;
+  if(t==='dm-clean') return `<div class="tpl-dm-clean">${S.showProfile?`<div class="hd">${avEl(28,c,'A')}<div><div class="dn">${e(dn)}</div><div class="un">${e(dh)} · DM</div></div></div>`:''}<div class="mg"><p>${e('This saved me hours every week. Can't believe I did it manually before.')}</p></div></div>`;
 
   if(t==='rv-stars') return `<div class="tpl-rv-stars"><div class="st">${stars(5,14)}</div><p class="qt">${e(dq)}</p><div class="dv"></div>${S.showProfile?`<div class="au">${avEl(30,c,'A')}<div><div class="nm">${e(dn)}</div><div class="bg2">Verified buyer</div></div></div>`:''}</div>`;
 
@@ -618,9 +650,8 @@ function applyBg(id){
   if(S.bgMode==='none'){el.style.background='transparent';el.style.padding='0';}
   else if(S.bgMode==='color'){el.style.background=S.bgColor;el.style.padding='22px';}
   else{
-    const l=lum(S.bgColor);
-    const c2=l>0.5?darken(S.bgColor,50):lighten(S.bgColor,50);
-    el.style.background=`linear-gradient(135deg,${S.bgColor},${c2})`;
+    // Gradient: use bgColor and bgColor2 (both user-controlled)
+    el.style.background=`linear-gradient(135deg,${S.bgColor},${S.bgColor2})`;
     el.style.padding='22px';
   }
 }
@@ -644,6 +675,15 @@ function applyAspectRatio(){
   });
 }
 
+function applyCardScale(){
+  const scale=S.cardScale/100;
+  ['d-cw','m-cw'].forEach(id=>{
+    const el=document.getElementById(id); if(!el) return;
+    el.style.transform=`scale(${scale})`;
+    el.style.transformOrigin='center center';
+  });
+}
+
 function buildArOpts(id){
   const el=document.getElementById(id); if(!el) return;
   el.querySelectorAll('[data-ar]').forEach(b=>{
@@ -663,10 +703,26 @@ function toggleProfile(val){
 }
 
 function renderAll(){
+  // Preserve edits from existing cards before overwriting
+  const dc=document.getElementById('d-card');
+  const mc=document.getElementById('m-card');
+  const dEdits=collectEdits(dc);
+  const mEdits=collectEdits(mc);
   const h=cardHTML();
-  ['d-card','m-card'].forEach(id=>{const el=document.getElementById(id);if(el)el.innerHTML=h;});
+  if(dc) dc.innerHTML=h;
+  if(mc) mc.innerHTML=h;
+  // Restore edits — only if same template (same number of editable spans)
+  if(dEdits.length>0){
+    const newSpans=dc?dc.querySelectorAll('[contenteditable]'):[];
+    if(newSpans.length===dEdits.length) restoreEdits(dc,dEdits);
+  }
+  if(mEdits.length>0){
+    const newSpans=mc?mc.querySelectorAll('[contenteditable]'):[];
+    if(newSpans.length===mEdits.length) restoreEdits(mc,mEdits);
+  }
   applyBg('d-canvas'); applyBg('m-canvas');
   applyAspectRatio();
+  applyCardScale();
 }
 
 function buildStarPicker(id){
@@ -709,20 +765,37 @@ function buildTpls(id,mob){
   el.querySelectorAll('[data-id]').forEach(b=>b.addEventListener('click',()=>{S.tpl=b.dataset.id;buildTpls('d-tpls',false);buildTpls('m-tpls',true);renderAll();}));
 }
 
+// Simple color palette — grid of swatches only, no native color picker complexity
 function buildSwatches(id,colId,hexId,cls){
   const el=document.getElementById(id); if(!el) return;
   el.innerHTML=SWS.map(c=>`<div class="${cls} ${c===S.color?'active':''}" data-c="${c}" style="background:${c};${c==='#ffffff'?'border-color:rgba(255,255,255,.25)':''}" title="${c}"></div>`).join('');
   el.querySelectorAll('[data-c]').forEach(s=>s.addEventListener('click',()=>applyColor(s.dataset.c)));
 }
+
 function applyColor(c){
   if(!/^#[0-9a-fA-F]{6}$/.test(c)) return;
   S.color=c; localStorage.setItem('proof-color',c);
   document.documentElement.style.setProperty('--primary',c);
+  // Sync color picker inputs
   ['d-col','m-col'].forEach(id=>{const el=document.getElementById(id);if(el)el.value=c;});
+  // Sync hex text inputs
   ['d-hex','m-hex'].forEach(id=>{const el=document.getElementById(id);if(el)el.value=c;});
   buildSwatches('d-sw','d-col','d-hex','sw');
   buildSwatches('m-sw','m-col','m-hex','m-sw');
   renderAll();
+}
+
+function syncBgColor2UI(){
+  // Show/hide second color row for gradient
+  const isGrad=S.bgMode==='gradient';
+  ['d-bg-col2-row','m-bg-col2-row'].forEach(id=>{
+    const el=document.getElementById(id);if(el)el.style.display=isGrad?'block':'none';
+  });
+  // Show/hide card size slider when bg is not none
+  const hasBg=S.bgMode!=='none';
+  ['d-size-row','m-size-row'].forEach(id=>{
+    const el=document.getElementById(id);if(el)el.style.display=hasBg?'block':'none';
+  });
 }
 
 function buildBgOpts(optsId,wrapId,colId,hexId){
@@ -733,14 +806,43 @@ function buildBgOpts(optsId,wrapId,colId,hexId){
     const w=document.getElementById(wrapId);
     if(w) w.style.display=S.bgMode==='none'?'none':'block';
     buildBgOpts(optsId,wrapId,colId,hexId);
+    syncBgColor2UI();
     applyBg('d-canvas'); applyBg('m-canvas');
   }));
   const w=document.getElementById(wrapId);
   if(w) w.style.display=S.bgMode==='none'?'none':'block';
+  // Primary bg color
   const bc=document.getElementById(colId);
   const bh=document.getElementById(hexId);
   if(bc) bc.oninput=ev=>{S.bgColor=ev.target.value;if(bh)bh.value=ev.target.value;applyBg('d-canvas');applyBg('m-canvas');};
-  if(bh) bh.oninput=ev=>{if(/^#[0-9a-fA-F]{6}$/.test(ev.target.value)){S.bgColor=ev.target.value;if(bc)bc.value=ev.target.value;applyBg('d-canvas');applyBg('m-canvas');}};
+  if(bh) bh.oninput=ev=>{const v=ev.target.value;if(/^#[0-9a-fA-F]{6}$/.test(v)){S.bgColor=v;if(bc)bc.value=v;applyBg('d-canvas');applyBg('m-canvas');}};
+  syncBgColor2UI();
+}
+
+// Gradient second color wiring (called after DOM ready)
+function wireBgColor2(){
+  [['d-bg-col2','d-bg-hex2'],['m-bg-col2','m-bg-hex2']].forEach(([cid,hid])=>{
+    const bc=document.getElementById(cid);
+    const bh=document.getElementById(hid);
+    if(bc) bc.oninput=ev=>{S.bgColor2=ev.target.value;if(bh)bh.value=ev.target.value;applyBg('d-canvas');applyBg('m-canvas');};
+    if(bh) bh.oninput=ev=>{const v=ev.target.value;if(/^#[0-9a-fA-F]{6}$/.test(v)){S.bgColor2=v;if(bc)bc.value=v;applyBg('d-canvas');applyBg('m-canvas');}};
+  });
+}
+
+// Card size sliders
+function wireSizeSliders(){
+  [['d-size-sl','d-size-val'],['m-size-sl','m-size-val']].forEach(([sid,vid])=>{
+    const sl=document.getElementById(sid);
+    const vl=document.getElementById(vid);
+    if(sl) sl.oninput=ev=>{
+      S.cardScale=parseInt(ev.target.value);
+      if(vl) vl.textContent=S.cardScale;
+      // sync other slider
+      ['d-size-sl','m-size-sl'].forEach(id=>{const o=document.getElementById(id);if(o&&o!==sl)o.value=S.cardScale;});
+      ['d-size-val','m-size-val'].forEach(id=>{const o=document.getElementById(id);if(o)o.textContent=S.cardScale;});
+      applyCardScale();
+    };
+  });
 }
 
 function buildExpToggle(id){
@@ -751,6 +853,17 @@ function buildExpToggle(id){
   });
 }
 
+// Remove screenshot image
+function removeImg(){
+  S.img=null;
+  const defaultUpl=`<svg width="22" height="22" viewBox="0 0 24 24" fill="rgba(255,255,255,0.2)"><path d="M19 7v3h-2V7h-3V5h3V2h2v3h3v2h-3zm-3 4V8h-3V5H5c-1.1 0-2 .9-2 2v12c0 1.1.9 2 2 2h14c1.1 0 2-.9 2-2v-8h-5zM5 19l3-4 2 3 3-4 4 5H5z"/></svg><p>Upload screenshot<br/><span style="font-size:10px;opacity:.5">Framed inside the card</span></p>`;
+  const defaultMUpl=`<svg width="20" height="20" viewBox="0 0 24 24" fill="rgba(255,255,255,0.2)"><path d="M19 7v3h-2V7h-3V5h3V2h2v3h3v2h-3zm-3 4V8h-3V5H5c-1.1 0-2 .9-2 2v12c0 1.1.9 2 2 2h14c1.1 0 2-.9 2-2v-8h-5zM5 19l3-4 2 3 3-4 4 5H5z"/></svg><p>Upload screenshot → framed in card</p>`;
+  const du=document.getElementById('d-upl');if(du)du.innerHTML=defaultUpl;
+  const mu=document.getElementById('m-upl');if(mu)mu.innerHTML=defaultMUpl;
+  ['d-rm-img','m-rm-img'].forEach(id=>{const el=document.getElementById(id);if(el)el.style.display='none';});
+  renderAll();
+}
+
 // Screenshot upload
 document.getElementById('file-input').addEventListener('change',e=>{
   const file=e.target.files[0]; if(!file) return;
@@ -759,6 +872,7 @@ document.getElementById('file-input').addEventListener('change',e=>{
     S.img=ev.target.result;
     const t=`<img class="uimg" src="${ev.target.result}"/><p style="font-size:10px;opacity:.5">Click to change</p>`;
     ['d-upl','m-upl'].forEach(id=>{const el=document.getElementById(id);if(el)el.innerHTML=t;});
+    ['d-rm-img','m-rm-img'].forEach(id=>{const el=document.getElementById(id);if(el)el.style.display='block';});
     S.cat='screenshot'; S.tpl='sc-frame';
     buildCats('d-cats',false);buildTpls('d-tpls',false);
     buildCats('m-cats',true);buildTpls('m-tpls',true);
@@ -835,8 +949,8 @@ window.addEventListener('message',function(e){
 // Close modal on backdrop click
 document.getElementById('dl-modal').addEventListener('click',function(e){if(e.target===this)closeDlModal();});
 
-document.getElementById('d-dl').onclick=()=>downloadPNG('d-card','d-canvas','d-dl');
-document.getElementById('m-dl').onclick=()=>downloadPNG('m-card','m-canvas','m-dl');
+document.getElementById('d-dl').onclick=()=>openDlModal(()=>downloadPNG('d-card','d-canvas','d-dl'));
+document.getElementById('m-dl').onclick=()=>openDlModal(()=>downloadPNG('m-card','m-canvas','m-dl'));
 
 function copyHTML(cardId,btnId){
   const el=document.getElementById(cardId); if(!el) return;
@@ -850,11 +964,19 @@ function copyHTML(cardId,btnId){
 document.getElementById('d-cp').onclick=()=>copyHTML('d-card','d-cp');
 document.getElementById('m-cp').onclick=()=>copyHTML('m-card','m-cp');
 
-// Color inputs
-document.getElementById('d-col').oninput=e=>applyColor(e.target.value);
-document.getElementById('m-col').oninput=e=>applyColor(e.target.value);
-document.getElementById('d-hex').oninput=e=>{if(/^#[0-9a-fA-F]{6}$/.test(e.target.value))applyColor(e.target.value);};
-document.getElementById('m-hex').oninput=e=>{if(/^#[0-9a-fA-F]{6}$/.test(e.target.value))applyColor(e.target.value);};
+// Color inputs — fix: sync hex text when color picker changes, and validate on each keystroke
+document.getElementById('d-col').oninput=e=>{const v=e.target.value;document.getElementById('d-hex').value=v;applyColor(v);};
+document.getElementById('m-col').oninput=e=>{const v=e.target.value;document.getElementById('m-hex').value=v;applyColor(v);};
+document.getElementById('d-hex').oninput=e=>{
+  let v=e.target.value;
+  if(!v.startsWith('#'))v='#'+v;
+  if(/^#[0-9a-fA-F]{6}$/.test(v)){document.getElementById('d-col').value=v;applyColor(v);}
+};
+document.getElementById('m-hex').oninput=e=>{
+  let v=e.target.value;
+  if(!v.startsWith('#'))v='#'+v;
+  if(/^#[0-9a-fA-F]{6}$/.test(v)){document.getElementById('m-col').value=v;applyColor(v);}
+};
 
 // Strip
 function buildStrip(){
@@ -878,6 +1000,8 @@ buildBgOpts('m-bg-opts','m-bg-wrap','m-bg-col','m-bg-hex');
 buildExpToggle('d-exp'); buildExpToggle('m-exp');
 buildArOpts('d-ar-opts'); buildArOpts('m-ar-opts');
 buildStarPicker('d-star-picker'); buildStarPicker('m-star-picker');
+wireBgColor2();
+wireSizeSliders();
 applyColor(S.color);
 </script>
 </body>
