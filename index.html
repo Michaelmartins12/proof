@@ -634,7 +634,7 @@ function cardHTML(){
 
   if(t==='dm-bubble') return `<div class="tpl-dm-bubble"><div class="ts">Today 2:41 PM</div><div class="br"><div class="bb" style="background:${c}"><p>${e('This saved me hours every week!')}</p></div></div>${S.showProfile?`<div class="snd"><div class="sav" style="width:20px;height:20px;border-radius:50%;overflow:hidden;flex-shrink:0;">${av('A','#bbb')}</div><div class="snm">${e(dn)} · ${e(dh)}</div></div>`:''}</div>`;
 
-  if(t==='dm-clean') return `<div class="tpl-dm-clean">${S.showProfile?`<div class="hd">${avEl(28,c,'A')}<div><div class="dn">${e(dn)}</div><div class="un">${e(dh)} · DM</div></div></div>`:''}<div class="mg"><p>${e('This saved me hours every week. Can't believe I did it manually before.')}</p></div></div>`;
+  if(t==='dm-clean') return `<div class="tpl-dm-clean">${S.showProfile?`<div class="hd">${avEl(28,c,'A')}<div><div class="dn">${e(dn)}</div><div class="un">${e(dh)} · DM</div></div></div>`:''}<div class="mg"><p>${e("This saved me hours every week. Can\u2019t believe I did it manually before.")}</p></div></div>`;
 
   if(t==='rv-stars') return `<div class="tpl-rv-stars"><div class="st">${stars(5,14)}</div><p class="qt">${e(dq)}</p><div class="dv"></div>${S.showProfile?`<div class="au">${avEl(30,c,'A')}<div><div class="nm">${e(dn)}</div><div class="bg2">Verified buyer</div></div></div>`:''}</div>`;
 
